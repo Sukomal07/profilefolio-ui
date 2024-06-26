@@ -2,9 +2,8 @@
 import { Navbar } from "@/components/Navbar";
 import { Sidebar } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
-import { Cancel, Hamburger } from "@/public/Svg";
-import { ToggleState } from "@/store";
-import { useState } from "react";
+import { ToggleState } from "@/lib/store";
+import { Hamburger } from "@/public/Svg";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function ({
@@ -18,14 +17,14 @@ export default function ({
       <Navbar />
       {toggle ? (
         <div className="flex">
-          <div className="p-2 w-[25vw]">
+          <div className="p-2 ">
             <Sidebar />
           </div>
           <div>{children}</div>
         </div>
       ) : (
         <div className="flex flex-col gap-1 p-2">
-            <Button onClick={()=>{setToggleState(true)}} className="rounded h-6 w-6" variant={'outline'} size={'icon'}> 
+            <Button onClick={()=>{setToggleState(true)}} className="rounded-full h-6 w-6" variant={'default'} size={'icon'}> 
             <Hamburger/>
         </Button>
             {children}
