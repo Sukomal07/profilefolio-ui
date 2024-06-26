@@ -13,7 +13,7 @@ export default function ({
 }>) {
   const [toggle,setToggleState] = useRecoilState(ToggleState)
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-gray-500 h-screen">
       <Navbar />
       {toggle ? (
         <div className="flex">
@@ -23,7 +23,7 @@ export default function ({
           <div>{children}</div>
         </div>
       ) : (
-        <div className="flex flex-col gap-1 p-2">
+        <div className="flex flex-col gap-1 p-2 bg-gray-500 h-screen">
             <Button onClick={()=>{setToggleState(true)}} className="rounded-full h-6 w-6" variant={'default'} size={'icon'}> 
             <Hamburger/>
         </Button>
