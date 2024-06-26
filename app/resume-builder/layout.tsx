@@ -17,16 +17,20 @@ export default function ({
       <Navbar />
       {toggle ? (
         <div className="flex">
-          <div className="p-2 ">
+          <div className="py-4 px-2">
             <Sidebar />
           </div>
-          <div>{children}</div>
+          <div className=" px-4 py-4">
+            {children}
+          </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-1 p-2 bg-gray-500 h-screen">
+        <div className="flex justify-center gap-1 p-4 bg-gray-500 h-screen">
+          <div className="px-4">
             <Button onClick={()=>{setToggleState(true)}} className="rounded-full h-6 w-6" variant={'default'} size={'icon'}> 
-            <Hamburger/>
-        </Button>
+              <Hamburger/>
+            </Button>
+          </div>
             {children}
         </div>
       )}

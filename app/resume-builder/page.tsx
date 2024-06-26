@@ -1,6 +1,7 @@
-import { Sidebar } from "@/components/Sidebar";
+import { ResumeView } from "@/components/ResumeView";
 
 export default function (){
-    return <div>        
-    </div>
+    return(
+        <ResumeView/>        
+    )
 }

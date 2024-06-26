@@ -7,7 +7,7 @@ import { ToggleState } from "@/lib/store";
 export const Sidebar = () => {
   const [toggleState, setToggleState] = useRecoilState(ToggleState);
   return (
-    <div className="bg-gray-100 rounded w-[25vw] max-h-[90vh] flex flex-col gap-2 overflow-y-auto p-2">
+    <div className="bg-gray-100 rounded w-[30vw] max-h-[90vh] flex flex-col gap-2 overflow-y-auto px-4 py-2">
       <div className="flex justify-end sticky top-0">
         <Button
           onClick={() => {
