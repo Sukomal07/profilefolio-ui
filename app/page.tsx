@@ -3,20 +3,18 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <>
-    <div className="flex  flex-col gap-3 items-center justify-center h-screen text-3xl bg-red-200 font-semibold">
+    <div className="flex  flex-col gap-3 items-center justify-center h-screen text-3xl font-semibold">
       <h1>
         Resume Builder
       </h1>
-      <Button asChild>
+      <Button variant={'default'}>
         <Link href={'/resume-builder'}>
-        Go To Resume Builder
+          Go To Resume Builder
         </Link>
       </Button>
-      <Button variant={'default'}>
+      <Button variant={'outline'}>
         Test
       </Button>
     </div>
-    </>
   );
 }
