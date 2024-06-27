@@ -19,7 +19,7 @@ export const ExpItem = () => {
         </div>
         <div className=" font-medium">Jan-2024 to Present</div>
       </div>
-      <div className="px-2 text-gray-700 pt-2 text-justify">
+      <div className="px-4 text-gray-700 pt-2 text-justify">
         -worked with React hooks like useEffect,UseState.-worked with React
         hooks like useEffect,UseState.-worked with React hooks like
         useEffect,UseState. -worked with React hooks like
