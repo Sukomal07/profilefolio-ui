@@ -2,6 +2,6 @@
 import { RecoilRoot } from "recoil";
 
 
-export default function RecoidContextProvider({ children }: { children: React.ReactNode }) {
-    return <RecoilRoot>{children}</RecoilRoot>;
-  }
+export default function RecoilContextProvider({ children }: { children: React.ReactNode }) {
+  return <RecoilRoot>{children}</RecoilRoot>;
+}

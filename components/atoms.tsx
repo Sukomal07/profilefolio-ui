@@ -10,6 +10,14 @@ export const resumeState = atom<ResumeState>({
       phone: '',
       jobTitle: '',
       summary: '',
+      links: [],
+      location: {
+        address: '',
+        postalCode: '',
+        city: '',
+        countryCode: '',
+        region: ''
+      }
     },
   },
 })

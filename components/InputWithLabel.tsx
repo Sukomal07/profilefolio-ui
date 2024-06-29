@@ -6,17 +6,15 @@ interface Props {
     name: string;
     type: string;
     placeholder: string;
-    onChange: any
+    value: string;
+    onChange: (value: string) => void;
 }
 
-export function InputWithLabel({ label, name, type, placeholder, onChange }: Props) {
-    const handleChange = (value: string) => {
-        onChange(name, value)
-    }
+export function InputWithLabel({ label, name, type, placeholder, value, onChange }: Props) {
     return (
         <div className="grid w-full max-w-sm items-center gap-3">
             <Label htmlFor={name} className="text-base font-normal text-slate-500">{label}</Label>
-            <Input type={type} name={name} id={name} placeholder={placeholder} onChange={(e) => handleChange(e.target.value)}/>
+            <Input type={type} name={name} id={name} placeholder={placeholder} value={value} onChange={(e) => onChange(e.target.value)} />
         </div>
     )
 }
