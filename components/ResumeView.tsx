@@ -1,11 +1,12 @@
-import ReactToPrint from "react-to-print"
-import { Resume } from "./Resume"
-import { Button } from "./ui/button"
-import { useRef } from "react"
+import React from 'react'
+import { Resume } from './Resume'
 
-export const ResumeView = ()=>{
-    
-    return <div className="bg-slate-300 h-[90vh] overflow-y-scroll  rounded">
-            <Resume/>        
-    </div>
+export default function ResumeView() {
+    return (
+        <div className='bg-[#f3f7f7] overflow-hidden'>
+            <div className='flex justify-center overflow-y-scroll h-full scrollbar-thin'>
+                <Resume />
+            </div>
+        </div>
+    )
 }

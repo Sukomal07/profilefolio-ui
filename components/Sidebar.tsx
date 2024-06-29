@@ -1,25 +1,34 @@
-"use client";
-import { Cancel } from "@/public/Svg";
-import { Button } from "./ui/button";
-import { useRecoilState } from "recoil";
-import { ToggleState } from "@/lib/store";
+import React from 'react'
+import UserInfo from './ResumeDetails/UserInfo/UserInfo'
+import Education from './ResumeDetails/Education/Education'
+import Experience from './ResumeDetails/Experience/Experience'
+import Project from './ResumeDetails/Project/Project'
+import Skills from './ResumeDetails/Skills/Skills'
+import Language from './ResumeDetails/Language/Language'
+import Certificate from './ResumeDetails/Certificate/Certificate'
 
-export const Sidebar = () => {
-  const [toggleState, setToggleState] = useRecoilState(ToggleState);
+export default function Sidebar() {
   return (
-    <div className="bg-gray-100 rounded w-[30vw] max-h-[90vh] flex flex-col gap-2 overflow-y-auto px-4 py-2">
-      <div className="flex justify-end sticky top-0">
-        <Button
-          onClick={() => {
-            setToggleState(false);
-          }}
-          className="rounded-full h-6 w-6"
-          variant={'default'}
-          size={"icon"}
-        >
-          <Cancel />
-        </Button>
+    <div className='w-[400px] h-full'>
+      <div className='py-4 border border-gray-200 rounded-md h-[530px] overflow-y-auto scrollbar-none scroll-smooth'>
+        <h1 className='font-semibold text-slate-600 text-base mb-4 px-4'>Resume Details</h1>
+        <hr />
+        <div className='flex flex-col'>
+          <UserInfo />
+          <hr />
+          <Education />
+          <hr />
+          <Experience />
+          <hr />
+          <Project />
+          <hr />
+          <Skills />
+          <hr />
+          <Language />
+          <hr />
+          <Certificate />
+        </div>
       </div>
     </div>
-  );
-};
+  )
+}
