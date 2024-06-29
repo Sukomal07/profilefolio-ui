@@ -15,6 +15,8 @@ import {
 
 import { ChevronDown, Trash2, User } from 'lucide-react'
 import { useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { personalInfoSelector } from '@/components/selectors'
 
 interface Link {
     url: string;
@@ -44,6 +46,13 @@ export default function UserInfo() {
 export function UserInfoInputs() {
     const [links, setLinks] = useState<Link[]>([]);
     const [showAddress, setShowAddress] = useState(false);
+    const [personalInfo, setPersonalInfo] = useRecoilState(personalInfoSelector)
+    const { name, email, phone, jobTitle, summary } = personalInfo;
+
+    const handleInputChange = (field: string, value: string) => {
+        setPersonalInfo({ ...personalInfo, [field]: value });
+        console.log('Input value in parent:', value);
+    }
 
     const handleAddLink = () => {
         if (links.length < 5) {
@@ -67,10 +76,10 @@ export function UserInfoInputs() {
     return (
         <div className='flex flex-col gap-4 px-2'>
             <div className='grid md:grid-cols-2 gap-3'>
-                <InputWithLabel label='Name' name='name' type='text' placeholder='John Doe' />
-                <InputWithLabel label='Email' name='email' type='email' placeholder='john.doe@example.com' />
-                <InputWithLabel label='Phone' name='number' type='number' placeholder='+91 6264791295' />
-                <InputWithLabel label='Job Title' name='label' type='text' placeholder='Full stack developer' />
+                <InputWithLabel label='Name' name='name' type='text' placeholder='John Doe' onChange={handleInputChange} />
+                <InputWithLabel label='Email' name='email' type='email' placeholder='john.doe@example.com' onChange={handleInputChange} />
+                <InputWithLabel label='Phone' name='phone' type='number' placeholder='+91 6264791295' onChange={handleInputChange} />
+                <InputWithLabel label='Job Title' name='jobTitle' type='text' placeholder='Full stack developer' onChange={handleInputChange} />
             </div>
             <div className='flex flex-col gap-3'>
                 <Label htmlFor="summary" className="text-base font-normal text-slate-500">Summary</Label>
@@ -116,12 +125,12 @@ export function UserInfoInputs() {
             <div className='flex flex-col gap-3'>
                 <h1 className='text-slate-700 font-medium text-base'>Address</h1>
                 <div className={`transition-all duration-300 ease-in-out overflow-hidden ${showAddress ? 'block' : 'hidden'}`}>
-                    <div className='grid md:grid-cols-2 gap-3'>
+                    {/* <div className='grid md:grid-cols-2 gap-3'>
                         <InputWithLabel label='Address' name='address' type='text' placeholder='2712 Broadway St' />
                         <InputWithLabel label='City' name='city' type='text' placeholder='San Francisco' />
                         <InputWithLabel label='Country' name='countryCode' type='text' placeholder='US' />
                         <InputWithLabel label='Postal Code' name='postalCode' type='number' placeholder='CA 94115' />
-                    </div>
+                    </div> */}
                 </div>
                 <Button variant={'outline'} onClick={toggleAddress}>
                     {showAddress ? 'Remove Address' : 'Add Address'}

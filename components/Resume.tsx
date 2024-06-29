@@ -11,7 +11,16 @@ export const Resume = () => {
   return (
     <div className=" bg-white shadow-md mx-16 h-[297mm] w-[220mm]  my-2 ">
       <div ref={componentRef} className="py-2 px-6">
-
+        {/* BasicDetails */}
+        <BasicDetails />
+        {/* Projects */}
+        {/* <Projects /> */}
+        {/* Experience */}
+        {/* <Experience /> */}
+        {/* Skills */}
+        {/* <Skills /> */}
+        {/* Certifications */}
+        {/* <Certifications /> */}
       </div>
     </div>
   );

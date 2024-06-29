@@ -1,6 +1,9 @@
+"use client"
+
 import ResumeHeader from "@/components/ResumeHeader";
 import ResumeView from "@/components/ResumeView";
 import Sidebar from "@/components/Sidebar";
+import { RecoilRoot } from 'recoil';
 
 
 export default function Page() {
@@ -8,10 +11,12 @@ export default function Page() {
         <div className="h-full px-12">
             <ResumeHeader />
             <hr />
-            <div className="mt-7 flex justify-between h-full">
-                <Sidebar />
-                <ResumeView />
-            </div>
+            <RecoilRoot>
+                <div className="mt-7 flex justify-between h-full">
+                    <Sidebar />
+                    <ResumeView />
+                </div>
+            </RecoilRoot>
         </div>
     )
 }
