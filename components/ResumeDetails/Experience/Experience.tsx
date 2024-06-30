@@ -78,8 +78,8 @@ export function ListOfCompanies() {
 
 export function CompaniesInput() {
     return (
-        <div className='flex flex-col gap-3'>
-            <div className='flex flex-col gap-3 px-4'>
+        <div className='flex flex-col gap-3 px-4'>
+            <div className='flex flex-col gap-3'>
                 <InputWithLabel label='Company name' name='name' type='text' placeholder='Company name' />
                 <InputWithLabel label='Website' name='url' type='url' placeholder='Company website' />
                 <InputWithLabel label='Job Title' name='position' type='text' placeholder='Software Emgineer' />

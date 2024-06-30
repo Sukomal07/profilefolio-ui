@@ -81,22 +81,24 @@ export function ListOfInstitution() {
 
 export function InstituteInputs() {
     return (
-        <div className='grid md:grid-cols-2 gap-3 px-4'>
-            <InputWithLabel label='Institution' name='institution' type='text' placeholder='University name' />
-            <InputWithLabel label='Website' name='url' type='url' placeholder='Institution website' />
-            <InputWithLabel label='Degree' name='studyType' type='text' placeholder='Bachelors' />
-            <InputWithLabel label='Field of Study' name='area' type='text' placeholder='Computer science' />
-            <Input placeholder='4.5' name='score' id='score' />
-            <Select>
-                <SelectTrigger>
-                    <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="gpa">GPA</SelectItem>
-                    <SelectItem value="cgpa">CGPA</SelectItem>
-                    <SelectItem value="percentage">Percentage</SelectItem>
-                </SelectContent>
-            </Select>
+        <div className='flex flex-col gap-3 px-4'>
+            <div className='grid md:grid-cols-2 gap-3'>
+                <InputWithLabel label='Institution' name='institution' type='text' placeholder='University name' />
+                <InputWithLabel label='Website' name='url' type='url' placeholder='Institution website' />
+                <InputWithLabel label='Degree' name='studyType' type='text' placeholder='Bachelors' />
+                <InputWithLabel label='Field of Study' name='area' type='text' placeholder='Computer science' />
+                <Input placeholder='4.5' name='score' id='score' />
+                <Select>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="gpa">GPA</SelectItem>
+                        <SelectItem value="cgpa">CGPA</SelectItem>
+                        <SelectItem value="percentage">Percentage</SelectItem>
+                    </SelectContent>
+                </Select>
+            </div>
             <div className='flex flex-col gap-3 w-full'>
                 <Label htmlFor='duration' className="text-base font-normal text-slate-500">Duration</Label>
                 <DatePickerWithRange />

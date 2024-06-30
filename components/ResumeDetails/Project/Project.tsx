@@ -79,8 +79,8 @@ export function ListOfProjects() {
 
 export function ProjectInputs() {
     return (
-        <div className='flex flex-col gap-3'>
-            <div className='flex flex-col gap-3 px-4'>
+        <div className='flex flex-col gap-3 px-4'>
+            <div className='flex flex-col gap-3'>
                 <InputWithLabel label='Project name' name='name' type='text' placeholder='Project name' />
                 <InputWithLabel label='Technologies Used' name='technologies' type='text' placeholder='React.js , Node.js , TypeScript ...' />
                 <InputWithLabel label='Project Link / GitHub Repository' name='url' type='text' placeholder='github.com/your-username/repository' />

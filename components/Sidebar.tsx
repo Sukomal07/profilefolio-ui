@@ -6,6 +6,7 @@ import Project from './ResumeDetails/Project/Project'
 import Skills from './ResumeDetails/Skills/Skills'
 import Language from './ResumeDetails/Language/Language'
 import Certificate from './ResumeDetails/Certificate/Certificate'
+import { Button } from './ui/button'
 
 export default function Sidebar() {
   return (
@@ -28,6 +29,14 @@ export default function Sidebar() {
           <hr />
           <Certificate />
         </div>
+      </div>
+      <div className='flex items-center justify-between py-4'>
+        <Button variant={'outline'}>
+          Cancel
+        </Button>
+        <Button variant={'default'}>
+          Save
+        </Button>
       </div>
     </div>
   )

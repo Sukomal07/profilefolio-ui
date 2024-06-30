@@ -3,6 +3,7 @@
 import { InputWithLabel } from '@/components/InputWithLabel'
 import { Button } from '@/components/ui/button'
 import { DatePickerDemo } from '@/components/ui/date'
+import { Label } from '@/components/ui/label'
 import { ChevronDown, Star, Trash2 } from 'lucide-react'
 import React, { useState } from 'react'
 
@@ -81,7 +82,10 @@ export function CertificateInputs() {
             <InputWithLabel label='Certificate name' name='name' type='text' placeholder='Full stack developer' />
             <InputWithLabel label='Certificate link' name='url' type='url' placeholder='Certificate link' />
             <InputWithLabel label='Issued by' name='issuer' type='text' placeholder='Udemy , Coursera' />
-            <DatePickerDemo />
+            <div className='flex flex-col gap-3 w-full'>
+                <Label htmlFor='duration' className="text-base font-normal text-slate-500">Issue date</Label>
+                <DatePickerDemo />
+            </div>
         </div>
     )
 }
