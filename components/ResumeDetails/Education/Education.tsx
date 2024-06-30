@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { BookText, ChevronDown, Trash2 } from 'lucide-react'
 import React, { useState } from 'react'
+import { useFormContext, useFieldArray } from 'react-hook-form';
 
 export default function Education() {
     const [showEducation, setShowEducation] = useState(false)
@@ -30,31 +31,30 @@ export default function Education() {
     )
 }
 
-interface Education {
-    showInputs: boolean;
-}
-
 export function ListOfInstitution() {
-    const [educations, setEducations] = useState<Education[]>([]);
+    const { control } = useFormContext();
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "educations",
+    });
+
+    const [showInputs, setShowInputs] = useState<number | null>(null);
 
     const toggleInputs = (index: number) => {
-        const newEducations = [...educations];
-        newEducations[index].showInputs = !newEducations[index].showInputs;
-        setEducations(newEducations);
+        setShowInputs(showInputs === index ? null : index);
     };
 
     const addEducation = () => {
-        setEducations([...educations, { showInputs: false }]);
+        append({ institution: "", url: "", studyType: "", area: "", score: "", scoreType: "", duration: { start: null, end: null } });
     };
 
     const deleteEducation = (index: number) => {
-        const newEducations = educations.filter((_, i) => i !== index);
-        setEducations(newEducations);
+        remove(index);
     };
 
     return (
         <div className='flex flex-col gap-3 px-2'>
-            {educations.map((education, index) => (
+            {fields.map((education, index) => (
                 <div key={index}>
                     <div
                         className='flex justify-between items-center px-4 py-4 cursor-pointer'
@@ -66,10 +66,10 @@ export function ListOfInstitution() {
                                 e.stopPropagation();
                                 deleteEducation(index);
                             }} />
-                            <ChevronDown size={20} className={`text-slate-400 cursor-pointer transform transition-transform duration-300 ${education.showInputs ? 'rotate-180' : ''}`} />
+                            <ChevronDown size={20} className={`text-slate-400 cursor-pointer transform transition-transform duration-300 ${showInputs === index ? 'rotate-180' : ''}`} />
                         </div>
                     </div>
-                    {education.showInputs && <InstituteInputs />}
+                    {showInputs === index && <InstituteInputs index={index} />}
                 </div>
             ))}
             <Button variant={'outline'} onClick={addEducation}>
@@ -79,16 +79,18 @@ export function ListOfInstitution() {
     )
 }
 
-export function InstituteInputs() {
+export function InstituteInputs({ index }: { index: number }) {
+    const { register, control, setValue } = useFormContext();
+
     return (
         <div className='flex flex-col gap-3 px-4'>
             <div className='grid md:grid-cols-2 gap-3'>
-                <InputWithLabel label='Institution' name='institution' type='text' placeholder='University name' />
-                <InputWithLabel label='Website' name='url' type='url' placeholder='Institution website' />
-                <InputWithLabel label='Degree' name='studyType' type='text' placeholder='Bachelors' />
-                <InputWithLabel label='Field of Study' name='area' type='text' placeholder='Computer science' />
-                <Input placeholder='4.5' name='score' id='score' />
-                <Select>
+                <InputWithLabel label='Institution' {...register(`educations.${index}.institution`)} type='text' placeholder='University name' />
+                <InputWithLabel label='Website' {...register(`educations.${index}.url`)} type='url' placeholder='Institution website' />
+                <InputWithLabel label='Degree' {...register(`educations.${index}.studyType`)} type='text' placeholder='Bachelors' />
+                <InputWithLabel label='Field of Study' {...register(`educations.${index}.area`)} type='text' placeholder='Computer science' />
+                <Input {...register(`educations.${index}.score`)} placeholder='4.5' />
+                <Select {...register(`educations.${index}.scoreType`)} onValueChange={(value) => setValue(`links.${index}.scoreType`, value)}>
                     <SelectTrigger>
                         <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -100,8 +102,9 @@ export function InstituteInputs() {
                 </Select>
             </div>
             <div className='flex flex-col gap-3 w-full'>
-                <Label htmlFor='duration' className="text-base font-normal text-slate-500">Duration</Label>
-                <DatePickerWithRange />
+                <Label htmlFor={`educations.${index}.duration`} className="text-base font-normal text-slate-500">Duration</Label>
+                <DatePickerWithRange control={control} name={`educations.${index}.duration`} />
+
             </div>
         </div>
     )

@@ -1,20 +1,23 @@
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+"use client"
+
+import { useFormContext } from 'react-hook-form';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface Props {
     label: string;
     name: string;
     type: string;
     placeholder: string;
-    value: string;
-    onChange: (value: string) => void;
 }
 
-export function InputWithLabel({ label, name, type, placeholder, value, onChange }: Props) {
+export function InputWithLabel({ label, name, type, placeholder }: Props) {
+    const { register } = useFormContext();
+
     return (
         <div className="grid w-full max-w-sm items-center gap-3">
             <Label htmlFor={name} className="text-base font-normal text-slate-500">{label}</Label>
-            <Input type={type} name={name} id={name} placeholder={placeholder} value={value} onChange={(e) => onChange(e.target.value)} />
+            <Input type={type} id={name} placeholder={placeholder} {...register(name)} />
         </div>
     )
 }

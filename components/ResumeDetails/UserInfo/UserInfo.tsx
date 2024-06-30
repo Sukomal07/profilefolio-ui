@@ -1,6 +1,7 @@
 "use client"
 
 import { InputWithLabel } from '@/components/InputWithLabel'
+import { useFormContext, useFieldArray } from 'react-hook-form';
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -15,8 +16,6 @@ import {
 
 import { ChevronDown, Trash2, User } from 'lucide-react'
 import { useState } from 'react'
-import { useRecoilState } from 'recoil'
-import { personalInfoSelector } from '@/components/selectors'
 
 export default function UserInfo() {
     const [showInputs, setShowInputs] = useState(false)
@@ -39,82 +38,43 @@ export default function UserInfo() {
 }
 
 export function UserInfoInputs() {
-    const [showAddress, setShowAddress] = useState(false);
-    const [personalInfo, setPersonalInfo] = useRecoilState(personalInfoSelector)
-
-    const handleInputChange = (field: string, value: string) => {
-        setPersonalInfo({ ...personalInfo, [field]: value });
-    }
-
-    const handleAddressChange = (field: string, value: string) => {
-        setPersonalInfo(prev => ({
-            ...prev,
-            location: {
-                ...prev.location,
-                [field]: value
-            }
-        }));
-    };
-
+    const { control, register, setValue } = useFormContext();
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "links",
+    });
 
     const handleAddLink = () => {
-        if (personalInfo.links.length < 5) {
-            setPersonalInfo(prev => ({
-                ...prev,
-                links: [...prev.links, { key: '', value: '' }]
-            }));
+        if (fields.length < 5) {
+            append({ url: '', type: '' });
         }
     };
 
-    const handleRemoveLink = (index: number) => {
-        const newLinks = personalInfo.links.filter((_, i) => i !== index);
-        setPersonalInfo(prev => ({
-            ...prev,
-            links: newLinks
-        }));
-    };
-
-    const handleLinkChange = (index: number, field: 'key' | 'value', value: string) => {
-        const newLinks = personalInfo.links.map((link, i) =>
-            i === index ? { ...link, [field]: value } : link
-        );
-        setPersonalInfo(prev => ({
-            ...prev,
-            links: newLinks
-        }));
-    };
-
-    const toggleAddress = () => {
-        setShowAddress(!showAddress);
-    };
-
-    console.log(personalInfo)
     return (
         <div className='flex flex-col gap-4 px-2'>
             <div className='grid md:grid-cols-2 gap-3'>
-                <InputWithLabel label='Name' name='name' type='text' placeholder='John Doe' value={personalInfo.name} onChange={(value) => handleInputChange('name', value)} />
-                <InputWithLabel label='Email' name='email' type='email' placeholder='john.doe@example.com' value={personalInfo.email} onChange={(value) => handleInputChange('email', value)} />
-                <InputWithLabel label='Phone' name='phone' type='number' placeholder='+91 6264791295' value={personalInfo.phone} onChange={(value) => handleInputChange('phone', value)} />
-                <InputWithLabel label='Job Title' name='jobTitle' type='text' placeholder='Full stack developer' value={personalInfo.jobTitle} onChange={(value) => handleInputChange('jobTitle', value)} />
+                <InputWithLabel label='Name' name='fullName' type='text' placeholder='John Doe' />
+                <InputWithLabel label='Email' name='email' type='email' placeholder='john.doe@example.com' />
+                <InputWithLabel label='Phone' name='phoneNumber' type='number' placeholder='+91 6264791295' />
+                <InputWithLabel label='Job Title' name='jobTitle' type='text' placeholder='Full stack developer' />
             </div>
             <div className='flex flex-col gap-3'>
                 <Label htmlFor="summary" className="text-base font-normal text-slate-500">Summary</Label>
-                <Textarea placeholder='Enter Summary' name='summary' id='summary' value={personalInfo.summary} onChange={(e) => handleInputChange('summary', e.target.value)} />
+                <Textarea placeholder='Enter Summary' id='summary' {...register('summary')} />
             </div>
             <div className='flex flex-col gap-3'>
-                <h1 className='text-slate-700 font-medium text-base'>Links({personalInfo.links.length}/5)</h1>
-                {personalInfo.links.map((link, index) => (
+                <h1 className='text-slate-700 font-medium text-base'>Links({fields.length}/5)</h1>
+                {fields.map((link, index) => (
                     <div key={index} className='flex items-center justify-between gap-3'>
                         <div className='grid md:grid-cols-2 gap-3'>
                             <Input
                                 placeholder='Your link here'
                                 type='url'
-                                value={link.value}
-                                onChange={(e) => handleLinkChange(index, 'value', e.target.value)}
+                                {...register(`links.${index}.url` as const)}
                             />
                             <Select
-                                value={link.key}
-                                onValueChange={(value) => handleLinkChange(index, 'key', value)}
+                                {...register(`links.${index}.type` as const, { required: true })}
+                                onValueChange={(value) => setValue(`links.${index}.type`, value)}
                             >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select" />
@@ -129,27 +89,13 @@ export function UserInfoInputs() {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className='cursor-pointer' onClick={() => handleRemoveLink(index)}>
+                        <div className='cursor-pointer' onClick={() => remove(index)}>
                             <Trash2 size={'15'} />
                         </div>
                     </div>
                 ))}
-                <Button variant={'outline'} onClick={handleAddLink} disabled={personalInfo.links.length >= 5}>
+                <Button variant={'outline'} onClick={handleAddLink} disabled={fields.length >= 5}>
                     + Add Link
-                </Button>
-            </div>
-            <div className='flex flex-col gap-3'>
-                <h1 className='text-slate-700 font-medium text-base'>Address</h1>
-                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${showAddress ? 'block' : 'hidden'}`}>
-                    <div className='grid md:grid-cols-2 gap-3 p-2'>
-                        <InputWithLabel label='Address' name='address' type='text' placeholder='2712 Broadway St' value={personalInfo.location.address} onChange={(value) => handleAddressChange('address', value)} />
-                        <InputWithLabel label='City' name='city' type='text' placeholder='San Francisco' value={personalInfo.location.city} onChange={(value) => handleAddressChange('city', value)} />
-                        <InputWithLabel label='Country' name='countryCode' type='text' placeholder='US' value={personalInfo.location.countryCode} onChange={(value) => handleAddressChange('countryCode', value)} />
-                        <InputWithLabel label='Postal Code' name='postalCode' type='number' placeholder='CA 94115' value={personalInfo.location.postalCode} onChange={(value) => handleAddressChange('postalCode', value)} />
-                    </div>
-                </div>
-                <Button variant={'outline'} onClick={toggleAddress}>
-                    {showAddress ? 'Remove Address' : 'Add Address'}
                 </Button>
             </div>
         </div>
