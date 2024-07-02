@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@radix-ui/react-label'
 import { Briefcase, ChevronDown, Trash2 } from 'lucide-react'
 import React, { useState } from 'react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
 export default function Experience() {
     const [experience, setShowExperience] = useState(false)
@@ -28,30 +29,29 @@ export default function Experience() {
     )
 }
 
-interface CompaniesProps {
-    showInputs: boolean;
-}
-
 export function ListOfCompanies() {
-    const [companies, setCompanies] = useState<CompaniesProps[]>([]);
+    const { control } = useFormContext();
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "companies",
+    });
+
+    const [showInputs, setShowInputs] = useState<number | null>(null);
 
     const toggleInputs = (index: number) => {
-        const newCompanies = [...companies];
-        newCompanies[index].showInputs = !newCompanies[index].showInputs;
-        setCompanies(newCompanies);
+        setShowInputs(showInputs === index ? null : index);
     };
 
     const addCompany = () => {
-        setCompanies([...companies, { showInputs: false }]);
+        append({ name: "", position: "", url: "", startDate: "", endDate: "", summary: "" })
     };
 
     const deleteCompany = (index: number) => {
-        const newCompanies = companies.filter((_, i) => i !== index);
-        setCompanies(newCompanies);
+        remove(index)
     };
     return (
         <div className='flex flex-col gap-3 px-2'>
-            {companies.map((company, index) => (
+            {fields.map((company, index) => (
                 <div key={index}>
                     <div
                         className='flex justify-between items-center px-4 py-4 cursor-pointer'
@@ -63,10 +63,10 @@ export function ListOfCompanies() {
                                 e.stopPropagation();
                                 deleteCompany(index);
                             }} />
-                            <ChevronDown size={20} className={`text-slate-400 cursor-pointer transform transition-transform duration-300 ${company.showInputs ? 'rotate-180' : ''}`} />
+                            <ChevronDown size={20} className={`text-slate-400 cursor-pointer transform transition-transform duration-300 ${showInputs === index ? 'rotate-180' : ''}`} />
                         </div>
                     </div>
-                    {company.showInputs && <CompaniesInput />}
+                    {showInputs === index && <CompaniesInput index={index} />}
                 </div>
             ))}
             <Button variant={'outline'} onClick={addCompany}>
@@ -76,21 +76,22 @@ export function ListOfCompanies() {
     )
 }
 
-export function CompaniesInput() {
+export function CompaniesInput({ index }: { index: number }) {
+    const { register } = useFormContext();
     return (
         <div className='flex flex-col gap-3 px-4'>
             <div className='flex flex-col gap-3'>
-                <InputWithLabel label='Company name' name='name' type='text' placeholder='Company name' />
-                <InputWithLabel label='Website' name='url' type='url' placeholder='Company website' />
-                <InputWithLabel label='Job Title' name='position' type='text' placeholder='Software Emgineer' />
+                <InputWithLabel label='Company name' type='text' placeholder='Company name' {...register(`companies.${index}.name`)} />
+                <InputWithLabel label='Website' type='url' placeholder='Company website' {...register(`companies.${index}.url`)} />
+                <InputWithLabel label='Job Title' type='text' placeholder='Software Emgineer' {...register(`companies.${index}.position`)} />
                 <div className='flex flex-col gap-3 w-full'>
                     <Label htmlFor='duration' className="text-base font-normal text-slate-500">Duration</Label>
-                    <DatePickerWithRange />
+                    {/* <DatePickerWithRange /> */}
                 </div>
             </div>
             <div className='flex flex-col gap-3'>
-                <Label htmlFor="summary" className="text-base font-normal text-slate-500">Summary</Label>
-                <Textarea placeholder='Enter Summary' name='summary' id='summary' />
+                <Label htmlFor={`companies.${index}.summary`} className="text-base font-normal text-slate-500">Summary</Label>
+                <Textarea placeholder='Enter Summary' id='summary' {...register(`companies.${index}.summary`)} />
             </div>
         </div>
     )

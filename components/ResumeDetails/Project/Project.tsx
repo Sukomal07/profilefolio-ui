@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@radix-ui/react-label'
 import { Airplay, ChevronDown, Trash2 } from 'lucide-react'
 import React, { useState } from 'react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
 export default function Project() {
     const [projects, setShowProjects] = useState(false)
@@ -29,30 +30,29 @@ export default function Project() {
     )
 }
 
-interface ProjectsProps {
-    showInputs: boolean;
-}
 
 export function ListOfProjects() {
-    const [projects, setProjects] = useState<ProjectsProps[]>([]);
+    const { control } = useFormContext();
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "projects",
+    });
+    const [showInputs, setShowInputs] = useState<number | null>(null);
 
     const toggleInputs = (index: number) => {
-        const newProject = [...projects];
-        newProject[index].showInputs = !newProject[index].showInputs;
-        setProjects(newProject);
+        setShowInputs(showInputs === index ? null : index);
     };
 
     const addProject = () => {
-        setProjects([...projects, { showInputs: false }]);
+        append({ name: "", startDate: "", endDate: "", description: "", technologies: "", url: "" })
     };
 
     const deleteProject = (index: number) => {
-        const newProject = projects.filter((_, i) => i !== index);
-        setProjects(newProject);
+        remove(index)
     };
     return (
         <div className='flex flex-col gap-3 px-2'>
-            {projects.map((project, index) => (
+            {fields.map((project, index) => (
                 <div key={index}>
                     <div
                         className='flex justify-between items-center px-4 py-4 cursor-pointer'
@@ -64,10 +64,10 @@ export function ListOfProjects() {
                                 e.stopPropagation();
                                 deleteProject(index);
                             }} />
-                            <ChevronDown size={20} className={`text-slate-400 cursor-pointer transform transition-transform duration-300 ${project.showInputs ? 'rotate-180' : ''}`} />
+                            <ChevronDown size={20} className={`text-slate-400 cursor-pointer transform transition-transform duration-300 ${showInputs === index ? 'rotate-180' : ''}`} />
                         </div>
                     </div>
-                    {project.showInputs && <ProjectInputs />}
+                    {showInputs === index && <ProjectInputs index={index} />}
                 </div>
             ))}
             <Button variant={'outline'} onClick={addProject}>
@@ -77,21 +77,22 @@ export function ListOfProjects() {
     )
 }
 
-export function ProjectInputs() {
+export function ProjectInputs({ index }: { index: number }) {
+    const { register } = useFormContext();
     return (
         <div className='flex flex-col gap-3 px-4'>
             <div className='flex flex-col gap-3'>
-                <InputWithLabel label='Project name' name='name' type='text' placeholder='Project name' />
-                <InputWithLabel label='Technologies Used' name='technologies' type='text' placeholder='React.js , Node.js , TypeScript ...' />
-                <InputWithLabel label='Project Link / GitHub Repository' name='url' type='text' placeholder='github.com/your-username/repository' />
+                <InputWithLabel label='Project name' type='text' placeholder='Project name'  {...register(`projects.${index}.name`)} />
+                <InputWithLabel label='Technologies Used' {...register(`projects.${index}.technologies`)} type='text' placeholder='React.js , Node.js , TypeScript ...' />
+                <InputWithLabel label='Project Link / GitHub Repository' {...register(`projects.${index}.url`)} type='text' placeholder='github.com/your-username/repository' />
                 <div className='flex flex-col gap-3 w-full'>
                     <Label htmlFor='duration' className="text-base font-normal text-slate-500">Duration</Label>
-                    <DatePickerWithRange />
+                    {/* <DatePickerWithRange /> */}
                 </div>
             </div>
             <div className='flex flex-col gap-3'>
-                <Label htmlFor="description" className="text-base font-normal text-slate-500">Description</Label>
-                <Textarea placeholder='Enter description' name='description' id='description' />
+                <Label htmlFor={`projects.${index}.description`} className="text-base font-normal text-slate-500">Description</Label>
+                <Textarea placeholder='Enter description' {...register(`projects.${index}.description`)} id='description' />
             </div>
         </div>
     )

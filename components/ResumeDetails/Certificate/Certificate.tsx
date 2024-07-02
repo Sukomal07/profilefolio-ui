@@ -6,6 +6,7 @@ import { DatePickerDemo } from '@/components/ui/date'
 import { Label } from '@/components/ui/label'
 import { ChevronDown, Star, Trash2 } from 'lucide-react'
 import React, { useState } from 'react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
 export default function Certificate() {
     const [certificate, setShowCertificate] = useState(false)
@@ -27,30 +28,30 @@ export default function Certificate() {
     )
 }
 
-interface Props {
-    showInputs: boolean;
-}
 
 export function ListOfCertificates() {
-    const [certificates, setCertificates] = useState<Props[]>([]);
+    const { control } = useFormContext();
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "certificates",
+    });
+
+    const [showInputs, setShowInputs] = useState<number | null>(null);
 
     const toggleInputs = (index: number) => {
-        const newCertificate = [...certificates];
-        newCertificate[index].showInputs = !newCertificate[index].showInputs;
-        setCertificates(newCertificate);
+        setShowInputs(showInputs === index ? null : index);
     };
 
     const addCertificate = () => {
-        setCertificates([...certificates, { showInputs: false }]);
+        append({ name: "", date: "", issuer: "", url: "" })
     };
 
     const deleteCertificate = (index: number) => {
-        const newCertificate = certificates.filter((_, i) => i !== index);
-        setCertificates(newCertificate);
+        remove(index)
     };
     return (
         <div className='flex flex-col gap-3 px-2'>
-            {certificates.map((certificate, index) => (
+            {fields.map((certificate, index) => (
                 <div key={index}>
                     <div
                         className='flex justify-between items-center px-4 py-4 cursor-pointer'
@@ -62,10 +63,10 @@ export function ListOfCertificates() {
                                 e.stopPropagation();
                                 deleteCertificate(index);
                             }} />
-                            <ChevronDown size={20} className={`text-slate-400 cursor-pointer transform transition-transform duration-300 ${certificate.showInputs ? 'rotate-180' : ''}`} />
+                            <ChevronDown size={20} className={`text-slate-400 cursor-pointer transform transition-transform duration-300 ${showInputs === index ? 'rotate-180' : ''}`} />
                         </div>
                     </div>
-                    {certificate.showInputs && <CertificateInputs />}
+                    {showInputs === index && <CertificateInputs index={index} />}
                 </div>
             ))}
             <Button variant={'outline'} onClick={addCertificate}>
@@ -75,15 +76,15 @@ export function ListOfCertificates() {
     )
 }
 
-export function CertificateInputs() {
+export function CertificateInputs({ index }: { index: number }) {
+    const { register } = useFormContext()
     return (
-
         <div className='flex flex-col gap-3 px-4'>
-            <InputWithLabel label='Certificate name' name='name' type='text' placeholder='Full stack developer' />
-            <InputWithLabel label='Certificate link' name='url' type='url' placeholder='Certificate link' />
-            <InputWithLabel label='Issued by' name='issuer' type='text' placeholder='Udemy , Coursera' />
+            <InputWithLabel label='Certificate name' type='text' placeholder='Full stack developer' {...register(`certificates.${index}.name`)} />
+            <InputWithLabel label='Certificate link' type='url' placeholder='Certificate link' {...register(`certificates.${index}.url`)} />
+            <InputWithLabel label='Issued by' type='text' placeholder='Udemy , Coursera' {...register(`certificates.${index}.issuer`)} />
             <div className='flex flex-col gap-3 w-full'>
-                <Label htmlFor='duration' className="text-base font-normal text-slate-500">Issue date</Label>
+                <Label htmlFor={`certificates.${index}.date`} className="text-base font-normal text-slate-500">Issue date</Label>
                 <DatePickerDemo />
             </div>
         </div>

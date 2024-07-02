@@ -3,6 +3,7 @@
 import { InputWithLabel } from '@/components/InputWithLabel'
 import { ChevronDown, Database } from 'lucide-react'
 import React, { useState } from 'react'
+import { useFormContext } from 'react-hook-form'
 
 export default function Skills() {
     const [skills, setShowSkills] = useState(false)
@@ -25,6 +26,7 @@ export default function Skills() {
 }
 
 export function SkillsInputs() {
+
     return (
         <div className='p-2 flex flex-col gap-3 items-center'>
             <InputWithLabel label='Add languages' name='languages' type='text' placeholder='Java, javascript, TypeScript , Python' />

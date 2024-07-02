@@ -73,7 +73,6 @@ export function UserInfoInputs() {
                                 {...register(`links.${index}.url` as const)}
                             />
                             <Select
-                                {...register(`links.${index}.type` as const, { required: true })}
                                 onValueChange={(value) => setValue(`links.${index}.type`, value)}
                             >
                                 <SelectTrigger>

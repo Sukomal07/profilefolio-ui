@@ -51,27 +51,28 @@ export function ListOfInstitution() {
     const deleteEducation = (index: number) => {
         remove(index);
     };
-
     return (
         <div className='flex flex-col gap-3 px-2'>
-            {fields.map((education, index) => (
-                <div key={index}>
-                    <div
-                        className='flex justify-between items-center px-4 py-4 cursor-pointer'
-                        onClick={() => toggleInputs(index)}
-                    >
-                        <h1 className='text-slate-600 font-semibold text-base'>Institute Name</h1>
-                        <div className='flex gap-3 items-center'>
-                            <Trash2 size={20} className='text-slate-400 cursor-pointer' onClick={(e) => {
-                                e.stopPropagation();
-                                deleteEducation(index);
-                            }} />
-                            <ChevronDown size={20} className={`text-slate-400 cursor-pointer transform transition-transform duration-300 ${showInputs === index ? 'rotate-180' : ''}`} />
+            {fields.map((education, index) => {
+                return (
+                    <div key={index}>
+                        <div
+                            className='flex justify-between items-center px-4 py-4 cursor-pointer'
+                            onClick={() => toggleInputs(index)}
+                        >
+                            <h1 className='text-slate-600 font-semibold text-base'>Institution name</h1>
+                            <div className='flex gap-3 items-center'>
+                                <Trash2 size={20} className='text-slate-400 cursor-pointer' onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteEducation(index);
+                                }} />
+                                <ChevronDown size={20} className={`text-slate-400 cursor-pointer transform transition-transform duration-300 ${showInputs === index ? 'rotate-180' : ''}`} />
+                            </div>
                         </div>
+                        {showInputs === index && <InstituteInputs index={index} />}
                     </div>
-                    {showInputs === index && <InstituteInputs index={index} />}
-                </div>
-            ))}
+                )
+            })}
             <Button variant={'outline'} onClick={addEducation}>
                 + Add Education
             </Button>
@@ -90,7 +91,9 @@ export function InstituteInputs({ index }: { index: number }) {
                 <InputWithLabel label='Degree' {...register(`educations.${index}.studyType`)} type='text' placeholder='Bachelors' />
                 <InputWithLabel label='Field of Study' {...register(`educations.${index}.area`)} type='text' placeholder='Computer science' />
                 <Input {...register(`educations.${index}.score`)} placeholder='4.5' />
-                <Select {...register(`educations.${index}.scoreType`)} onValueChange={(value) => setValue(`links.${index}.scoreType`, value)}>
+                <Select
+                    onValueChange={(value) => setValue(`educations.${index}.scoreType`, value)}
+                >
                     <SelectTrigger>
                         <SelectValue placeholder="Select" />
                     </SelectTrigger>
