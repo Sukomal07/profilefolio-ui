@@ -81,9 +81,9 @@ export function CompaniesInput({ index }: { index: number }) {
     return (
         <div className='flex flex-col gap-3 px-4'>
             <div className='flex flex-col gap-3'>
-                <InputWithLabel label='Company name' type='text' placeholder='Company name' {...register(`companies.${index}.name`)} />
-                <InputWithLabel label='Website' type='url' placeholder='Company website' {...register(`companies.${index}.url`)} />
-                <InputWithLabel label='Job Title' type='text' placeholder='Software Emgineer' {...register(`companies.${index}.position`)} />
+                <InputWithLabel label='Company name' type='text' placeholder='Company name' schemaType={`companies.${index}`} name='name' />
+                <InputWithLabel label='Website' type='url' placeholder='Company website' schemaType={`companies.${index}`} name='url' />
+                <InputWithLabel label='Job Title' type='text' placeholder='Software Emgineer' schemaType={`companies.${index}`} name='position' />
                 <div className='flex flex-col gap-3 w-full'>
                     <Label htmlFor='duration' className="text-base font-normal text-slate-500">Duration</Label>
                     {/* <DatePickerWithRange /> */}

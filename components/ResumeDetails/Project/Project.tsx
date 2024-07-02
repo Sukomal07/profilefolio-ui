@@ -82,9 +82,9 @@ export function ProjectInputs({ index }: { index: number }) {
     return (
         <div className='flex flex-col gap-3 px-4'>
             <div className='flex flex-col gap-3'>
-                <InputWithLabel label='Project name' type='text' placeholder='Project name'  {...register(`projects.${index}.name`)} />
-                <InputWithLabel label='Technologies Used' {...register(`projects.${index}.technologies`)} type='text' placeholder='React.js , Node.js , TypeScript ...' />
-                <InputWithLabel label='Project Link / GitHub Repository' {...register(`projects.${index}.url`)} type='text' placeholder='github.com/your-username/repository' />
+                <InputWithLabel label='Project name' type='text' placeholder='Project name' schemaType={`projects.${index}`} name='name' />
+                <InputWithLabel label='Technologies Used' schemaType={`projects.${index}`} name='technologies' type='text' placeholder='React.js , Node.js , TypeScript ...' />
+                <InputWithLabel label='Project Link / GitHub Repository' schemaType={`projects.${index}`} name='url' type='text' placeholder='github.com/your-username/repository' />
                 <div className='flex flex-col gap-3 w-full'>
                     <Label htmlFor='duration' className="text-base font-normal text-slate-500">Duration</Label>
                     {/* <DatePickerWithRange /> */}

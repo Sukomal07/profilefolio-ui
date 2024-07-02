@@ -41,7 +41,7 @@ export function UserInfoInputs() {
     const { control, register, setValue } = useFormContext();
     const { fields, append, remove } = useFieldArray({
         control,
-        name: "links",
+        name: "personalInfo.links",
     });
 
     const handleAddLink = () => {
@@ -53,14 +53,14 @@ export function UserInfoInputs() {
     return (
         <div className='flex flex-col gap-4 px-2'>
             <div className='grid md:grid-cols-2 gap-3'>
-                <InputWithLabel label='Name' name='fullName' type='text' placeholder='John Doe' />
-                <InputWithLabel label='Email' name='email' type='email' placeholder='john.doe@example.com' />
-                <InputWithLabel label='Phone' name='phoneNumber' type='number' placeholder='+91 6264791295' />
-                <InputWithLabel label='Job Title' name='jobTitle' type='text' placeholder='Full stack developer' />
+                <InputWithLabel label='Name' name='fullName' type='text' placeholder='John Doe' schemaType='personalInfo' />
+                <InputWithLabel label='Email' name='email' type='email' placeholder='john.doe@example.com' schemaType='personalInfo' />
+                <InputWithLabel label='Phone' name='phoneNumber' type='number' placeholder='+91 6264791295' schemaType='personalInfo' />
+                <InputWithLabel label='Job Title' name='jobTitle' type='text' placeholder='Full stack developer' schemaType='personalInfo' />
             </div>
             <div className='flex flex-col gap-3'>
                 <Label htmlFor="summary" className="text-base font-normal text-slate-500">Summary</Label>
-                <Textarea placeholder='Enter Summary' id='summary' {...register('summary')} />
+                <Textarea placeholder='Enter Summary' id='summary' {...register('personalInfo.summary')} />
             </div>
             <div className='flex flex-col gap-3'>
                 <h1 className='text-slate-700 font-medium text-base'>Links({fields.length}/5)</h1>

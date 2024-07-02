@@ -80,9 +80,9 @@ export function CertificateInputs({ index }: { index: number }) {
     const { register } = useFormContext()
     return (
         <div className='flex flex-col gap-3 px-4'>
-            <InputWithLabel label='Certificate name' type='text' placeholder='Full stack developer' {...register(`certificates.${index}.name`)} />
-            <InputWithLabel label='Certificate link' type='url' placeholder='Certificate link' {...register(`certificates.${index}.url`)} />
-            <InputWithLabel label='Issued by' type='text' placeholder='Udemy , Coursera' {...register(`certificates.${index}.issuer`)} />
+            <InputWithLabel label='Certificate name' type='text' placeholder='Full stack developer' schemaType={`certificates.${index}`} name='name' />
+            <InputWithLabel label='Certificate link' type='url' placeholder='Certificate link' schemaType={`certificates.${index}`} name='url' />
+            <InputWithLabel label='Issued by' type='text' placeholder='Udemy , Coursera' schemaType={`certificates.${index}`} name='issuer' />
             <div className='flex flex-col gap-3 w-full'>
                 <Label htmlFor={`certificates.${index}.date`} className="text-base font-normal text-slate-500">Issue date</Label>
                 <DatePickerDemo />

@@ -87,10 +87,10 @@ export function InstituteInputs({ index }: { index: number }) {
     return (
         <div className='flex flex-col gap-3 px-4'>
             <div className='grid md:grid-cols-2 gap-3'>
-                <InputWithLabel label='Institution' {...register(`educations.${index}.institution`)} type='text' placeholder='University name' />
-                <InputWithLabel label='Website' {...register(`educations.${index}.url`)} type='url' placeholder='Institution website' />
-                <InputWithLabel label='Degree' {...register(`educations.${index}.studyType`)} type='text' placeholder='Bachelors' />
-                <InputWithLabel label='Field of Study' {...register(`educations.${index}.area`)} type='text' placeholder='Computer science' />
+                <InputWithLabel label='Institution' type='text' placeholder='University name' schemaType={`educations.${index}`} name="institution" />
+                <InputWithLabel label='Website' schemaType={`educations.${index}`} name="url" type='url' placeholder='Institution website' />
+                <InputWithLabel label='Degree' schemaType={`educations.${index}`} name="studyType" type='text' placeholder='Bachelors' />
+                <InputWithLabel label='Field of Study' schemaType={`educations.${index}`} name="area" type='text' placeholder='Computer science' />
                 <Input {...register(`educations.${index}.score`)} placeholder='4.5' />
                 <Select
                     onValueChange={(value) => setValue(`educations.${index}.scoreType`, value)}
