@@ -29,7 +29,7 @@ export default function Language() {
 
 
 export function ListOfLanguages() {
-    const { control } = useFormContext();
+    const { control, watch } = useFormContext();
     const { fields, append, remove } = useFieldArray({
         control,
         name: "languages",
@@ -56,7 +56,7 @@ export function ListOfLanguages() {
                         className='flex justify-between items-center px-4 py-4 cursor-pointer'
                         onClick={() => toggleInputs(index)}
                     >
-                        <h1 className='text-slate-600 font-semibold text-base'>Language</h1>
+                        <h1 className='text-slate-600 font-semibold text-base'>{watch(`languages.${index}.language`) || "Language"}</h1>
                         <div className='flex gap-3 items-center'>
                             <Trash2 size={20} className='text-slate-400 cursor-pointer' onClick={(e) => {
                                 e.stopPropagation();

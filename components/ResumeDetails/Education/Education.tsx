@@ -32,7 +32,7 @@ export default function Education() {
 }
 
 export function ListOfInstitution() {
-    const { control } = useFormContext();
+    const { control, watch } = useFormContext();
     const { fields, append, remove } = useFieldArray({
         control,
         name: "educations",
@@ -51,6 +51,7 @@ export function ListOfInstitution() {
     const deleteEducation = (index: number) => {
         remove(index);
     };
+
     return (
         <div className='flex flex-col gap-3 px-2'>
             {fields.map((education, index) => {
@@ -60,7 +61,7 @@ export function ListOfInstitution() {
                             className='flex justify-between items-center px-4 py-4 cursor-pointer'
                             onClick={() => toggleInputs(index)}
                         >
-                            <h1 className='text-slate-600 font-semibold text-base'>Institution name</h1>
+                            <h1 className='text-slate-600 font-semibold text-base'>{watch(`educations.${index}.institution`) || "Institution name"}</h1>
                             <div className='flex gap-3 items-center'>
                                 <Trash2 size={20} className='text-slate-400 cursor-pointer' onClick={(e) => {
                                     e.stopPropagation();
