@@ -78,7 +78,7 @@ export function ListOfLanguages() {
 export function LanguageInputs({ index }: { index: number }) {
     const { register, setValue } = useFormContext()
     return (
-        <div className='grid md:grid-cols-2 gap-3'>
+        <div className='grid lg:grid-cols-2 grid-cols-1 gap-3'>
             <Input id='language' placeholder='Enter language' {...register(`languages.${index}.language`)} />
             <Select onValueChange={(value) => setValue(`languages.${index}.fluency`, value)}>
                 <SelectTrigger>

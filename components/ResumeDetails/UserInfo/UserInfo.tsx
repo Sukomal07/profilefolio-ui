@@ -52,10 +52,10 @@ export function UserInfoInputs() {
 
     return (
         <div className='flex flex-col gap-4 px-2'>
-            <div className='grid md:grid-cols-2 gap-3'>
+            <div className='grid lg:grid-cols-2 grid-cols-1 gap-3'>
                 <InputWithLabel label='Name' name='fullName' type='text' placeholder='John Doe' schemaType='personalInfo' />
                 <InputWithLabel label='Email' name='email' type='email' placeholder='john.doe@example.com' schemaType='personalInfo' />
-                <InputWithLabel label='Phone' name='phoneNumber' type='number' placeholder='+91 6264791295' schemaType='personalInfo' />
+                <InputWithLabel label='Phone' name='phoneNumber' type='text' placeholder='+91 6264791295' schemaType='personalInfo' />
                 <InputWithLabel label='Job Title' name='jobTitle' type='text' placeholder='Full stack developer' schemaType='personalInfo' />
             </div>
             <div className='flex flex-col gap-3'>
@@ -66,14 +66,14 @@ export function UserInfoInputs() {
                 <h1 className='text-slate-700 font-medium text-base'>Links({fields.length}/5)</h1>
                 {fields.map((link, index) => (
                     <div key={index} className='flex items-center justify-between gap-3'>
-                        <div className='grid md:grid-cols-2 gap-3'>
+                        <div className='grid lg:grid-cols-2 grid-cols-1 gap-3'>
                             <Input
                                 placeholder='Your link here'
                                 type='url'
-                                {...register(`links.${index}.url` as const)}
+                                {...register(`personalInfo.links.${index}.url`)}
                             />
                             <Select
-                                onValueChange={(value) => setValue(`links.${index}.type`, value)}
+                                onValueChange={(value) => setValue(`personalInfo.links.${index}.type`, value)}
                             >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select" />

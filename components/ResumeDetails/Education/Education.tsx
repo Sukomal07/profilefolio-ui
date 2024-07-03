@@ -86,7 +86,7 @@ export function InstituteInputs({ index }: { index: number }) {
 
     return (
         <div className='flex flex-col gap-3 px-4'>
-            <div className='grid md:grid-cols-2 gap-3'>
+            <div className='grid lg:grid-cols-2 grid-cols-1 gap-3'>
                 <InputWithLabel label='Institution' type='text' placeholder='University name' schemaType={`educations.${index}`} name="institution" />
                 <InputWithLabel label='Website' schemaType={`educations.${index}`} name="url" type='url' placeholder='Institution website' />
                 <InputWithLabel label='Degree' schemaType={`educations.${index}`} name="studyType" type='text' placeholder='Bachelors' />

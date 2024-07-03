@@ -14,8 +14,8 @@ export default function Page() {
             <ResumeHeader />
             <hr />
             <FormProvider {...methods}>
-                <form onSubmit={methods.handleSubmit(onSubmit)}>
-                    <div className="mt-7 flex justify-between h-full">
+                <form onSubmit={methods.handleSubmit(onSubmit)} className="h-full">
+                    <div className="mt-7 flex justify-between h-full gap-8">
                         <Sidebar handleSubmit={methods.handleSubmit(onSubmit)} />
                         <ResumeView />
                     </div>
