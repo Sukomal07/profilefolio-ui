@@ -25,12 +25,13 @@ export default function Skills() {
 }
 
 export function SkillsInputs() {
+
     return (
         <div className='p-2 flex flex-col gap-3 items-center'>
-            <InputWithLabel label='Add languages' name='languages' type='text' placeholder='Java, javascript, TypeScript , Python' />
-            <InputWithLabel label='Add libraries / frameworks' name='libraries' type='text' placeholder='React.js , Next.js' />
-            <InputWithLabel label='Add tools / platforms' name='tools' type='text' placeholder='Vs code , Git' />
-            <InputWithLabel label='Add databases' name='database' type='text' placeholder='Mongodb , SQL , Postgress' />
+            <InputWithLabel label='Add languages' name='languages' type='text' placeholder='Java, javascript, TypeScript , Python' schemaType='skills' />
+            <InputWithLabel label='Add libraries / frameworks' name='libraries' type='text' placeholder='React.js , Next.js' schemaType='skills' />
+            <InputWithLabel label='Add tools / platforms' name='tools' type='text' placeholder='Vs code , Git' schemaType='skills' />
+            <InputWithLabel label='Add databases' name='database' type='text' placeholder='Mongodb , SQL , Postgress' schemaType='skills' />
         </div>
     )
 }

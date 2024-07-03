@@ -3,20 +3,24 @@
 import ResumeHeader from "@/components/ResumeHeader";
 import ResumeView from "@/components/ResumeView";
 import Sidebar from "@/components/Sidebar";
-import { RecoilRoot } from 'recoil';
-
+import { FormProvider, useForm, FieldValues } from 'react-hook-form';
 
 export default function Page() {
+    const methods = useForm();
+    const onSubmit = async (data: FieldValues) => console.log(data, 'userdetails');
+
     return (
         <div className="h-full px-12">
             <ResumeHeader />
             <hr />
-            <RecoilRoot>
-                <div className="mt-7 flex justify-between h-full">
-                    <Sidebar />
-                    <ResumeView />
-                </div>
-            </RecoilRoot>
+            <FormProvider {...methods}>
+                <form onSubmit={methods.handleSubmit(onSubmit)}>
+                    <div className="mt-7 flex justify-between h-full">
+                        <Sidebar handleSubmit={methods.handleSubmit(onSubmit)} />
+                        <ResumeView />
+                    </div>
+                </form>
+            </FormProvider>
         </div>
-    )
+    );
 }

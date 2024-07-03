@@ -1,6 +1,7 @@
 "use client"
 
 import { InputWithLabel } from '@/components/InputWithLabel'
+import { useFormContext, useFieldArray } from 'react-hook-form';
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -15,13 +16,6 @@ import {
 
 import { ChevronDown, Trash2, User } from 'lucide-react'
 import { useState } from 'react'
-import { useRecoilState } from 'recoil'
-import { personalInfoSelector } from '@/components/selectors'
-
-interface Link {
-    url: string;
-    type: string;
-};
 
 export default function UserInfo() {
     const [showInputs, setShowInputs] = useState(false)
@@ -44,61 +38,42 @@ export default function UserInfo() {
 }
 
 export function UserInfoInputs() {
-    const [links, setLinks] = useState<Link[]>([]);
-    const [showAddress, setShowAddress] = useState(false);
-    const [personalInfo, setPersonalInfo] = useRecoilState(personalInfoSelector)
-    const { name, email, phone, jobTitle, summary } = personalInfo;
-
-    const handleInputChange = (field: string, value: string) => {
-        setPersonalInfo({ ...personalInfo, [field]: value });
-        console.log('Input value in parent:', value);
-    }
+    const { control, register, setValue } = useFormContext();
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "personalInfo.links",
+    });
 
     const handleAddLink = () => {
-        if (links.length < 5) {
-            setLinks([...links, { url: '', type: '' }]);
+        if (fields.length < 5) {
+            append({ url: '', type: '' });
         }
     };
 
-    const handleRemoveLink = (index: number) => {
-        setLinks(links.filter((_, i) => i !== index));
-    };
-
-    const handleLinkChange = (index: number, field: keyof Link, value: string) => {
-        const newLinks = [...links];
-        newLinks[index][field] = value;
-        setLinks(newLinks);
-    };
-
-    const toggleAddress = () => {
-        setShowAddress(!showAddress);
-    };
     return (
         <div className='flex flex-col gap-4 px-2'>
             <div className='grid md:grid-cols-2 gap-3'>
-                <InputWithLabel label='Name' name='name' type='text' placeholder='John Doe' onChange={handleInputChange} />
-                <InputWithLabel label='Email' name='email' type='email' placeholder='john.doe@example.com' onChange={handleInputChange} />
-                <InputWithLabel label='Phone' name='phone' type='number' placeholder='+91 6264791295' onChange={handleInputChange} />
-                <InputWithLabel label='Job Title' name='jobTitle' type='text' placeholder='Full stack developer' onChange={handleInputChange} />
+                <InputWithLabel label='Name' name='fullName' type='text' placeholder='John Doe' schemaType='personalInfo' />
+                <InputWithLabel label='Email' name='email' type='email' placeholder='john.doe@example.com' schemaType='personalInfo' />
+                <InputWithLabel label='Phone' name='phoneNumber' type='number' placeholder='+91 6264791295' schemaType='personalInfo' />
+                <InputWithLabel label='Job Title' name='jobTitle' type='text' placeholder='Full stack developer' schemaType='personalInfo' />
             </div>
             <div className='flex flex-col gap-3'>
                 <Label htmlFor="summary" className="text-base font-normal text-slate-500">Summary</Label>
-                <Textarea placeholder='Enter Summary' name='summary' id='summary' />
+                <Textarea placeholder='Enter Summary' id='summary' {...register('personalInfo.summary')} />
             </div>
             <div className='flex flex-col gap-3'>
-                <h1 className='text-slate-700 font-medium text-base'>Links({links.length}/5)</h1>
-                {links.map((link, index) => (
+                <h1 className='text-slate-700 font-medium text-base'>Links({fields.length}/5)</h1>
+                {fields.map((link, index) => (
                     <div key={index} className='flex items-center justify-between gap-3'>
                         <div className='grid md:grid-cols-2 gap-3'>
                             <Input
                                 placeholder='Your link here'
                                 type='url'
-                                value={link.url}
-                                onChange={(e) => handleLinkChange(index, 'url', e.target.value)}
+                                {...register(`links.${index}.url` as const)}
                             />
                             <Select
-                                value={link.type}
-                                onValueChange={(value) => handleLinkChange(index, 'type', value)}
+                                onValueChange={(value) => setValue(`links.${index}.type`, value)}
                             >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select" />
@@ -113,27 +88,13 @@ export function UserInfoInputs() {
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className='cursor-pointer' onClick={() => handleRemoveLink(index)}>
+                        <div className='cursor-pointer' onClick={() => remove(index)}>
                             <Trash2 size={'15'} />
                         </div>
                     </div>
                 ))}
-                <Button variant={'outline'} onClick={handleAddLink} disabled={links.length >= 5}>
+                <Button variant={'outline'} onClick={handleAddLink} disabled={fields.length >= 5}>
                     + Add Link
-                </Button>
-            </div>
-            <div className='flex flex-col gap-3'>
-                <h1 className='text-slate-700 font-medium text-base'>Address</h1>
-                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${showAddress ? 'block' : 'hidden'}`}>
-                    {/* <div className='grid md:grid-cols-2 gap-3'>
-                        <InputWithLabel label='Address' name='address' type='text' placeholder='2712 Broadway St' />
-                        <InputWithLabel label='City' name='city' type='text' placeholder='San Francisco' />
-                        <InputWithLabel label='Country' name='countryCode' type='text' placeholder='US' />
-                        <InputWithLabel label='Postal Code' name='postalCode' type='number' placeholder='CA 94115' />
-                    </div> */}
-                </div>
-                <Button variant={'outline'} onClick={toggleAddress}>
-                    {showAddress ? 'Remove Address' : 'Add Address'}
                 </Button>
             </div>
         </div>
