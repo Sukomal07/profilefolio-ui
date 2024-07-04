@@ -1,11 +1,12 @@
 'use client'
 
 import { BasicDetails } from "./Resume/BasicDetails";
-import { Certifications } from "./Resume/Certifications";
+import Certifications from "./Resume/Certifications";
 import Educations from "./Resume/Educations";
-import { Experience } from "./Resume/Experience";
-import { Projects } from "./Resume/Projects";
-import { Skills } from "./Resume/Skills";
+import Experience from "./Resume/Experience";
+import Language from "./Resume/Language";
+import Projects from "./Resume/Projects";
+import Skills from "./Resume/Skills";
 import Summary from "./Resume/Summary";
 
 export const Resume = () => {
@@ -18,14 +19,16 @@ export const Resume = () => {
         <Summary />
         {/* Education */}
         <Educations />
-        {/* Projects */}
-        {/* <Projects /> */}
         {/* Experience */}
-        {/* <Experience /> */}
+        <Experience />
+        {/* Projects */}
+        <Projects />
         {/* Skills */}
-        {/* <Skills /> */}
+        <Skills />
+        {/* Languages  */}
+        <Language />
         {/* Certifications */}
-        {/* <Certifications /> */}
+        <Certifications />
       </div>
     </div>
   );

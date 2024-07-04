@@ -1,3 +1,4 @@
+import { ExternalLink } from "lucide-react";
 import { useFormContext } from "react-hook-form"
 
 interface Education {
@@ -21,7 +22,10 @@ export default function Educations() {
                     <div key={index} className="px-2">
                         <div className="flex items-center justify-between">
                             {education?.url ? (
-                                <a href={education.url} target="_blank" className="font-semibold text-xl">{education.institution}</a>
+                                <div className='flex items-center gap-2'>
+                                    <a href={education.url} target="_blank" className="font-semibold text-xl">{education.institution}</a>
+                                    <ExternalLink size={15} />
+                                </div>
                             ) : (
                                 <h1 className="font-semibold text-xl">{education.institution}</h1>
                             )}

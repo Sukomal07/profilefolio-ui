@@ -2,7 +2,7 @@
 
 import { InputWithLabel } from '@/components/InputWithLabel'
 import { Button } from '@/components/ui/button'
-import { DatePickerDemo } from '@/components/ui/date'
+import DatePicker from '@/components/ui/date-picker'
 import { Label } from '@/components/ui/label'
 import { ChevronDown, Star, Trash2 } from 'lucide-react'
 import React, { useState } from 'react'
@@ -85,7 +85,7 @@ export function CertificateInputs({ index }: { index: number }) {
             <InputWithLabel label='Issued by' type='text' placeholder='Udemy , Coursera' schemaType={`certificates.${index}`} name='issuer' />
             <div className='flex flex-col gap-3 w-full'>
                 <Label htmlFor={`certificates.${index}.date`} className="text-base font-normal text-slate-500">Issue date</Label>
-                <DatePickerDemo />
+                <DatePicker />
             </div>
         </div>
     )

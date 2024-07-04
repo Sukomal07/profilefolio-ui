@@ -2,7 +2,7 @@
 
 import { InputWithLabel } from '@/components/InputWithLabel'
 import { Button } from '@/components/ui/button'
-import { DatePickerWithRange } from '@/components/ui/date-picker'
+import DatePicker from '@/components/ui/date-picker'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -107,8 +107,10 @@ export function InstituteInputs({ index }: { index: number }) {
             </div>
             <div className='flex flex-col gap-3 w-full'>
                 <Label htmlFor={`educations.${index}.duration`} className="text-base font-normal text-slate-500">Duration</Label>
-                <DatePickerWithRange control={control} name={`educations.${index}.duration`} />
-
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
+                    <DatePicker />
+                    <DatePicker />
+                </div>
             </div>
         </div>
     )
