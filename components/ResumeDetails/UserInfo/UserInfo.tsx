@@ -38,7 +38,7 @@ export default function UserInfo() {
 }
 
 export function UserInfoInputs() {
-    const { control, register, setValue } = useFormContext();
+    const { control, register, setValue, watch } = useFormContext();
     const { fields, append, remove } = useFieldArray({
         control,
         name: "personalInfo.links",
@@ -48,6 +48,15 @@ export function UserInfoInputs() {
         if (fields.length < 5) {
             append({ url: '', type: '' });
         }
+    };
+
+    const detectLinkType = (url: string) => {
+        if (url.includes("github.com")) return "github";
+        if (url.includes("linkedin.com")) return "linkedin";
+        if (url.includes("twitter.com") || url.includes("x.com")) return "x";
+        if (url.includes("hackerrank.com")) return "hackerrank";
+        if (url.includes("leetcode.com")) return "leetcode";
+        return "portfolio";
     };
 
     return (
@@ -71,8 +80,14 @@ export function UserInfoInputs() {
                                 placeholder='Your link here'
                                 type='url'
                                 {...register(`personalInfo.links.${index}.url`)}
+                                onChange={(e) => {
+                                    const url = e.target.value;
+                                    const type = detectLinkType(url);
+                                    setValue(`personalInfo.links.${index}.type`, type);
+                                }}
                             />
                             <Select
+                                value={watch(`personalInfo.links.${index}.type`)}
                                 onValueChange={(value) => setValue(`personalInfo.links.${index}.type`, value)}
                             >
                                 <SelectTrigger>

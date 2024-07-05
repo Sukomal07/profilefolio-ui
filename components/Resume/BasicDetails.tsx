@@ -13,7 +13,7 @@ interface PersonalInfo {
     links: Link[];
 }
 
-export const BasicDetails = () => {
+export default function BasicDetails() {
     const { watch } = useFormContext()
 
     const personalInfo = watch("personalInfo") as PersonalInfo

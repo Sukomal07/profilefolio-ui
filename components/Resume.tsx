@@ -1,6 +1,6 @@
 'use client'
 
-import { BasicDetails } from "./Resume/BasicDetails";
+import BasicDetails from "./Resume/BasicDetails";
 import Certifications from "./Resume/Certifications";
 import Educations from "./Resume/Educations";
 import Experience from "./Resume/Experience";
